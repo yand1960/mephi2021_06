@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <title>Мой альбом</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="scripts/main.js"></script>
+</head>
+
+<body>
+    <h1>Фотоальбом html с поиском</h1>
+    <form>
+        First letters of name:
+        <input type="text" name="filter" oninput="filterOnChange(this.value)" autocomplete="off">
+    </form>
+
+    <div class="thumbnails">
+        <img src="images/april-meyer.jpg" onclick="showLarge(this);" class="selected" />
+        <img src="images/david-alexander.jpg" onclick="showLarge(this);" />
+        <img src="images/mark-hanson.jpg" onclick="showLarge(this);" />
+        <img src="images/melissa-kerr.jpg" onclick="showLarge(this);" />
+    </div>
+    <div class="large-photo">
+        <img src="images/april-meyer.jpg" id="large_photo" />
+    </div>
+</body>
+
+</html>
