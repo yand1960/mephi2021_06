@@ -1,0 +1,107 @@
+<html>
+	<head>
+		<title>Мой альбом</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="styles/main.css" />
+		<style>
+			div.thumbnails {
+				border:solid black thin;
+				width: 150px;
+				float: left;
+			}
+			
+			div.thumbnails img {
+				margin: 5px;
+				border-radius: 50%;
+				display: block;
+				width: 130px;
+				border: solid white thick;
+			}
+			
+			div.large-photo {
+				float: left;
+			}
+			
+			div.large-photo img {
+				width: 400px;
+				margin-left: 10px;
+			}
+			
+			div.thumbnails img:hover {
+				border: solid red thick;
+				cursor: pointer;
+			}
+			
+			div.thumbnails img.selected {
+				border: solid thick blue;
+			}
+
+			div.thumbnails img.filterImg {
+				/* display: block; */
+				border: solid thick blue;
+			}
+			
+			input{
+			width: 20%;
+			}
+
+		</style>
+		<script src="scripts/jquery-3.6.0.js"></script>
+		<script>
+			function showLarge(thumb) {
+				//alert("!!!!");
+				// console.log(thumb);
+				var pic_name = thumb.src;
+				console.log(pic_name);
+				var splitted = pic_name.split(".")
+				console.log(splitted);
+				var large_name = splitted[0] + "-large." + splitted[1];
+				console.log(large_name);
+				$("#large_photo").attr("src",large_name);
+				$("div.thumbnails img").removeClass("selected");
+				$(thumb).addClass("selected")
+
+			}
+		
+		</script>
+	</head>
+	<body>
+		<h1>Фотоальбом</h1>	
+		<form>
+		<input id="filter" type="text" placeholder="Начните вводить название картинки"/>
+		</form>
+		<div class="thumbnails" >
+			<img src="images/april-meyer.jpg" onclick="showLarge(this);" class="selected"/>
+			<img src="images/david-alexander.jpg" onclick="showLarge(this);"/>
+			<img src="images/mark-hanson.jpg" onclick="showLarge(this);"/>
+			<img src="images/melissa-kerr.jpg" onclick="showLarge(this);"/>
+		</div>
+
+		<script>
+			
+			var input = document.body.children[1][0];
+			var allimg = document.querySelectorAll('div.thumbnails img');
+
+
+			input.oninput = function filter_users(){
+				filterName = document.getElementById("filter").value;
+				filterName = filterName.toLowerCase();
+				$("div.thumbnails img").removeClass("filterImg");
+				$("div.thumbnails img").css("display", "block");
+				allimg.forEach((el)=>{					
+					var nameImg = el.src.split("/").pop().split(".")[0];
+					if (nameImg.indexOf(filterName)!=0)
+				    	$(el).addClass("filterImg");
+						$("div.thumbnails img.filterImg").css("display", "none");
+					if (nameImg.indexOf(filterName)==0)
+						showLarge(el);
+				})						
+			}			
+			
+		</script>
+
+		<div class="large-photo" >
+			<img src="images/april-meyer.jpg" id="large_photo"/>
+		<div>
+	</body>
+</html>
