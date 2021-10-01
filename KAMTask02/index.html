@@ -65,7 +65,7 @@
 
 				console.log(picNames[0].innerText);
 
-				// pics.map(item => item.innerText.toLowerCase().indexOf(filter) == 1 ?  : item.style.display = "none");
+				// picNames.map(item => item.innerText.toLowerCase().indexOf(filter) == 0 ? item.style.display = "" : item.style.display = "none");
 				for (i = 0; i < pics.length; i++) {
 					if (picNames[i].innerText.toLowerCase().indexOf(filter) == 0) {
 						pics[i].style.display = "";
