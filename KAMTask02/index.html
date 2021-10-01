@@ -1,0 +1,131 @@
+<html>
+	<head>
+		<title>Мой альбом</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="styles/main.css" />
+		<style>
+			div.thumbnails {
+				border:solid black thin;
+				width: 150px;
+				float: left;
+			}
+			
+			div.thumbnails img {
+				margin: 5px;
+				border-radius: 50%;
+				display: block;
+				width: 130px;
+				border: solid white thick;
+			}
+			
+			div.large-photo {
+				float: left;
+			}
+			
+			div.large-photo img {
+				width: 398px;
+				margin-left: 10px;
+			}
+			
+			div.thumbnails img:hover {
+				border: solid red thick;
+				cursor: pointer;
+			}
+			
+			div.thumbnails img.selected {
+				border: solid blue thick ;
+			}
+		</style>
+		<script src="scripts/jquery-3.6.0.js"></script>
+		<script>
+
+			// var pics = [
+			// 	{src: "images/april-meyer.jpg",
+			// 	name: "april-meyer"},
+
+			// 	{src: "images/david-alexander.jpg",
+			// 	name: "david-alexander"},
+
+			// 	{src: "images/mark-hanson.jpg",
+			// 	name: "mark-hanson"},
+
+			// 	{src: "images/melissa-kerr.jpg",
+			// 	name: "melissa-kerr"},
+			// ]
+
+
+			function searchFunc() {
+				var input;
+				input = document.getElementById('input');
+				filter = input.value.toLowerCase();
+
+				picsDiv = document.getElementById("pics");
+				pics = picsDiv.getElementsByTagName("img");
+				picNames = picsDiv.getElementsByTagName("span");
+
+				console.log(picNames[0].innerText);
+
+				// pics.map(item => item.innerText.toLowerCase().indexOf(filter) == 1 ?  : item.style.display = "none");
+				for (i = 0; i < pics.length; i++) {
+					if (picNames[i].innerText.toLowerCase().indexOf(filter) == 0) {
+						pics[i].style.display = "";
+						picNames[i].style.display = "";
+					} 
+					else {
+						pics[i].style.display = "none";
+						picNames[i].style.display = "none";
+					}
+				}
+				// picsFilt = pics.filter(item => item.name.toLowerCase().includes(filter));
+				
+			}
+
+			function showLarge(thumb) {
+				console.log(thumb);
+				var pic_name = thumb.src;
+				console.log(pic_name);
+				var splitted = pic_name.split(".jpg")
+				var large_name = splitted[0] + "-large.jpg";
+				console.log(large_name);
+				// document.getElementById("large_photo").src = large_name;
+				
+				// for(element of document.getElementsByClassName("thumbnails")[0].children) {
+				// 	element.classList.remove("selected")
+				// }
+				
+				
+				// thumb.classList.add("selected");
+				$("#large_photo").attr("src", large_name);
+				$("div.thumbnails img").removeClass("selected");
+				$(thumb).addClass("selected");
+
+
+			}
+
+		</script>
+	</head>
+	<body>
+		<h1>Фотоальбом</h1>
+		
+		<div class="thumbnails">
+			<input type="text" class="input" id="input" onkeyup="searchFunc()" placeholder="Введите текст">
+			<div id="pics">
+				<img src="images/april-meyer.jpg"
+				onclick="showLarge(this);" class="selected"/>
+				<span>april-meyer</span>
+
+				<img src="images/david-alexander.jpg" onclick="showLarge(this);"/>
+				<span>david-alexander</span>
+
+				<img src="images/mark-hanson.jpg" onclick="showLarge(this);"/>
+				<span>mark-hanson</span>
+
+				<img src="images/melissa-kerr.jpg" onclick="showLarge(this);"/>
+				<span>melissa-kerr</span>
+			</div>
+		</div>
+		<div class="large-photo" >
+			<img src="images/april-meyer.jpg" id="large_photo"/>
+		<div>
+	</body>
+</html>
