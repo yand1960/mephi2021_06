@@ -1,0 +1,133 @@
+<html>
+	<head>
+		<title>Мой альбом</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="styles/main.css" />
+		<style>
+			div.thumbnails {
+				border:solid black thin;
+				width: 145px;
+				float: left;
+			}
+			
+			div.thumbnails img {
+				margin: 5px;
+				border-radius: 50%;
+				display: block;
+				width: 130px;
+				border: solid thick white;
+			}
+			
+			div.large-photo {
+				float: left;
+			}
+			
+			div.large-photo img {
+				width: 400px;
+				margin-left: 10px;
+			}
+			
+			div.thumbnails img:hover {
+				border: solid red thick;
+				cursor: pointer;
+			}
+			
+			div.thumbnails img.selected {
+				border: solid thick blue;
+			}
+
+			.box {
+  					display: flex;
+					  flex-direction: column;
+  					align-items: center;
+  					justify-content: center;
+				}
+		</style>
+		<script src="scripts/jquery-3.6.0.js"></script>
+		<script>
+			function showLarge(thumb) {
+				//alert("!!!!");
+				console.log(thumb);
+				var pic_name = thumb.src;
+				console.log(pic_name);
+				var splitted = pic_name.split(".jpg")
+				var large_name = splitted[0] + "-large.jpg";
+				console.log(large_name);
+				// document.getElementById("large_photo").src = large_name;
+				// for(element of document.getElementsByClassName("thumbnails")[0].children) {
+				// element.classList.remove("selected")
+				// }
+				// thumb.classList.add("selected");	
+				$("#large_photo").attr("src",large_name);
+				$("div.thumbnails img").removeClass("selected");
+				$(thumb).addClass('selected');
+
+			}
+	
+	
+			const productImg = ["april-meyer", "david-alexander", "mark-hanson","melissa-kerr"];
+
+			function myFunction() 
+				{
+    				var input, filter, a, i, textValue;
+    				input = document.getElementById("i1");
+    				filter = input.value.toUpperCase();
+					images = document.getElementById("products");
+					image = images.getElementsByTagName("img");
+					span = images.getElementsByTagName("span");
+					// image = document.getElementsByClassName("thumbnails")[0].children;
+
+					for (i = 0; i < image.length; i++) 
+						{				
+        					if (productImg[i].toUpperCase().startsWith(filter) === true) 
+								{
+            						image[i].style.display = "block";
+									span[i].style.display = "block";
+        						} 
+								else 
+								{
+            						image[i].style.display = "none";
+									span[i].style.display = "none";
+        						}
+    					}
+					console.log(image[0])
+				}
+				
+				
+
+        function showImages() 
+			{
+ 
+            var x = "";
+            for (var i = 0; i < productImg.length; i++) 
+				{
+					var image = productImg[i];
+					if(i===0)
+					{
+						x += '<img src="' +'images/' + image + '.jpg' +  '" onclick="showLarge(this);" class="selected" />' +  '<span>' + image + '</span>';
+					}
+					else
+					{
+                		x += '<img src="' +'images/' + image + '.jpg' + '" onclick="showLarge(this);"/>' +  '<span>' + image + '</span>';
+					}
+                	
+            	}
+            var getImg = document.getElementById('products').innerHTML = x;
+       		}
+
+
+		
+		</script>
+	</head>
+	<body onload="showImages()">
+		<h1>Фотоальбом</h1>
+		<div id='products' class="thumbnails">
+		</div>
+		<div class="large-photo box" >
+			<img src="images/april-meyer.jpg" id="large_photo"/>
+			<input type="text" id="i1" onkeyup="myFunction()" placeholder="Enter name of the picture">
+		<div>
+			
+	</body>
+</html>
+
