@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <title>Мой альбом</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="scripts/util.js"></script>
+</head>
+
+<body>
+<h1>Фотоальбом RETask2</h1>
+
+<form>
+    Type in a person's name (file name)
+    <input type="text" name="filter" oninput="filterPhotos(this.value)" autocomplete="off">
+</form>
+
+<div class="thumbnails">
+    <img src="images/april-meyer.jpg" onclick="showLarge(this);" class="selected" />
+    <img src="images/david-alexander.jpg" onclick="showLarge(this);" />
+    <img src="images/mark-hanson.jpg" onclick="showLarge(this);" />
+    <img src="images/melissa-kerr.jpg" onclick="showLarge(this);"/>
+</div>
+
+<div class="large-photo">
+    <img src="images/april-meyer.jpg" id="large_photo" />
+</div>
+</body>
+
+</html>

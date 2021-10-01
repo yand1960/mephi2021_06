@@ -1,0 +1,49 @@
+h1 {
+    color: #000000;
+    background-color: darkseagreen;
+    padding: 10px;
+    border: solid black thin;
+    border-radius: 10px;
+}
+
+div.thumbnails p {
+    display: block;
+    margin-left: 20px;
+}
+
+div.thumbnails {
+    border:solid black thin;
+    width: 150px;
+    float: left;
+}
+
+div.thumbnails img {
+    margin: 5px;
+    border-radius: 50%;
+    display: block;
+    width: 130px;
+    border: solid darkseagreen thick;
+}
+
+div.large-photo {
+    float: left;
+}
+
+div.large-photo img {
+    width: 400px;
+    margin-left: 10px;
+}
+
+div.thumbnails img:hover {
+    border: solid lightyellow thick;
+    cursor: pointer;
+}
+
+div.thumbnails img.selected {
+    border: solid lightpink ;
+}
+
+div.thumbnails p {
+    display: none;
+    margin-left: 20px;
+}
