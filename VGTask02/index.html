@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <title>Мой альбом</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
+        <style type="text/css">
+            div.thumbnails {
+                border: solid black thin;
+                width: 150px;
+                float: left;
+            }
+            div.thumbnails img {
+                margin: 5px;
+                border-radius: 50%;
+                display: block;
+                width: 130px;
+                border: solid white thick;
+            }
+            div.thumbnails img:hover {
+                border: solid red thick;
+                cursor:  pointer;
+            }
+            div.large-photo {
+                float: left;
+            }
+            div.large-photo img {
+                width: 400px;
+                margin-left: 10px;
+            }
+            div.thumbnails img.selected {
+                border: solid blue thick;
+            }
+        </style>
+        <script type="text/javascript" src="scripts/jquery-3.6.0.js"></script>
+        <script type="text/javascript">
+            function showLarge(thumb) {
+                // alert("!!!!");
+                console.log(thumb);
+                var pic_name = thumb.src;
+                console.log(pic_name);
+                // var splitted = pic_name.split(".");
+                // var large_name = splitted[0] + "-large." + splitted[1];
+                var large_name = pic_name.slice(0, -4) + "-large." + pic_name.slice(-3)
+                console.log(large_name);
+
+                // document.getElementById('large-photo').src = large_name;
+                // for(element of document.getElementsByClassName("thumbnails")[0].children) {
+                //     element.classList.remove('selected')
+                // }
+                // thumb.classList.add('selected');
+
+                $('#large-photo').attr('src', large_name)
+                $('div.thumbnails img').removeClass('selected');
+                $(thumb).addClass('selected')
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Фотоальбом</h1>
+        <form>
+            Первые буквы имени:
+            <input name="filter" id="search">
+        </form>
+        <div class="thumbnails" id="photo">
+            <img src="images/april-meyer.jpg" onclick="showLarge(this);" class="selected">
+            <img src="images/david-alexander.jpg" onclick="showLarge(this);">
+            <img src="images/mark-hanson.jpg" onclick="showLarge(this);">
+            <img src="images/melissa-kerr.jpg" onclick="showLarge(this);">
+        </div>
+        <script>
+            // Получение списка изображений размещенных на странице
+            var imgList = document.querySelectorAll('div.thumbnails img');
+            console.log(imgList)
+
+            // Массив названий изображений
+            var images = [];
+            imgList.forEach(element => {
+                console.log(element.src)
+                images.push(element.src.split("/").pop())
+            });
+            console.log(images)
+
+            // Обработка сопытия заполнения input
+            document.getElementById('search').addEventListener('input', e => {
+                var img = filter(e.target.value, images)
+                if (e.target.value === '')
+                    img = images
+                render(img, document.getElementById('photo'))
+                return false;
+            });
+
+            // Отбор изображений подходящих под фильтр
+            function filter(val,list){
+                let result=[];
+                list.forEach( i =>{
+                    if (i.slice(0, val.length) === val)
+                        result.push(i)
+                })
+                console.log(result)
+                return result;
+            }
+
+            // Замена выведенных изображений на соответсвующие фильтру
+            function render(img, el) {
+                el.innerHTML = '';
+                var class_name = 'selected'
+                if (img.length === 0)
+                    el.innerHTML = 'Совпадений не найдено'
+                else
+                    img.forEach( i => {
+                        var pic = document.createElement('img')
+                        pic.src = 'images/' + i
+                        if (class_name != '')
+                            pic.classList.add(class_name)
+                        el.append(pic)
+                        class_name = ''
+                    })
+            }
+        </script>
+        <div class="large-photo">
+            <img src="images/april-meyer.jpg" id="large-photo">
+        </div>
+    </body>
+</html>
