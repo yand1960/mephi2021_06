@@ -25,7 +25,7 @@ function fiterPhotosByName(input) {
     images.forEach((img) => {
         let path = img.src.split("/")
         const name = path.pop();
-        if (!name.startsWith(input)) {
+        if (!name.toLowerCase().startsWith(input.toLowerCase())) {
             img.style.display = "none";
         } else {
             imageFound = true;
