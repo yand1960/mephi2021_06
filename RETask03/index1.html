@@ -1,0 +1,115 @@
+<html>
+<head>
+    <title>Мой альбом</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="styles/main.css"/>
+    <style>
+        div.thumbnails {
+            border: solid black thin;
+            width: 150px;
+            float: left;
+        }
+
+        div.currentMoneyValue {
+            border: solid darkgreen thin;
+            width: 100%;
+            float: left;
+            text-align: center;
+        }
+
+        div.thumbnails img {
+            margin: 5px;
+            border-radius: 50%;
+            display: block;
+            width: 130px;
+            border: solid white thick;
+        }
+
+        div.large-photo {
+            float: left;
+        }
+
+        div.large-photo img {
+            width: 400px;
+            margin-left: 10px;
+        }
+
+        div.thumbnails img:hover {
+            border: solid red thick;
+            cursor: pointer;
+        }
+
+        div.thumbnails img.selected {
+            border: solid thick blue;
+        }
+    </style>
+    <script>
+        function showLarge(thumb) {
+            var pic_name = thumb.src;
+            var splitted = pic_name.split(".")
+            var large_name = splitted[0] + "-large." + splitted[1];
+            document.getElementById("large_photo").src = large_name;
+            for (element of document.getElementsByClassName("thumbnails")[0].children) {
+                element.classList.remove("selected");
+            }
+            thumb.classList.add("selected");
+        }
+
+        function getImages() {
+            var urlImages = "api/image_service.php";
+            var xhrImages = new XMLHttpRequest();
+
+            xhrImages.open("GET", urlImages);
+            xhrImages.onload = function () {
+                let result = xhrImages.responseText;
+                let images = JSON.parse(result);
+                let out = "";
+
+                for (pict of images) {
+                    out += `<img src='${pict.url}' onclick='showLarge(this);' />`;
+                }
+
+                document.getElementById("thumbnails").innerHTML = out;
+                var splitted = images[0].url.split(".")
+                var large_name = splitted[0] + "-large." + splitted[1];
+                document.getElementById("large_photo").src = large_name;
+                document.getElementById("large_photo").style.display = "";
+            }
+            xhrImages.send();
+
+            var urlMoney = "https://www.cbr-xml-daily.ru/daily_json.js";
+            var xhrMoney = new XMLHttpRequest();
+
+            xhrMoney.open("GET", urlMoney);
+            xhrMoney.onload = function () {
+                let result = xhrMoney.responseText;
+
+                let currentMoneyValue = JSON.parse(result);
+                const usd = currentMoneyValue.Valute.USD.Value;
+                const eur = currentMoneyValue.Valute.EUR.Value;
+                const gbp = currentMoneyValue.Valute.GBP.Value;
+
+                let currentValues = `<p>USD: ${usd}, EUR: ${eur}, GBP: ${gbp}</p>`;
+                document.getElementById("currentMoneyValue").innerHTML = currentValues;
+            }
+            xhrMoney.send();
+        }
+
+
+    </script>
+</head>
+<body onload="getImages();">
+<div id="currentMoneyValue" class="currentMoneyValue">
+    Идет загрузка...
+</div>
+<br/>
+<br/>
+<h1>Фотоальбом PHP</h1>
+<div class="thumbnails" id="thumbnails">
+    Идет загрузка...
+</div>
+<div class="large-photo">
+    <img src="" id="large_photo" style="display: none;"/>
+</div>
+</body>
+</html>
