@@ -44,7 +44,6 @@ function getContent() {
         const eur = response.Valute.EUR.Value;
         const gbp = response.Valute.GBP.Value;
         let currencies = `<p>Курс валют: USD: ${usd}, EUR: ${eur}, GBP: ${gbp}</p>`;
-        console.log(CBR_values)
         document.getElementById("CBR_values").innerHTML = currencies;
     }
     currencyRequest.send();
