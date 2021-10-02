@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <title>Мой альбом</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
+        <style type="text/css">
+            div.thumbnails {
+                border: solid black thin;
+                width: 150px;
+                float: left;
+            }
+            div.thumbnails img {
+                margin: 5px;
+                border-radius: 50%;
+                display: block;
+                width: 130px;
+                border: solid white thick;
+            }
+            div.thumbnails img:hover {
+                border: solid red thick;
+                cursor:  pointer;
+            }
+            div.large-photo {
+                float: left;
+            }
+            div.large-photo img {
+                width: 400px;
+                margin-left: 10px;
+            }
+            div.thumbnails img.selected {
+                border: solid blue thick;
+            }
+
+            div.currency {
+                color: #000000;
+	            background-color: #BBBBBB;
+	            padding: 10px;
+	            border: solid black thin;
+	            border-radius: 10px;
+                text-align: right;
+            }
+
+        </style>
+        <script type="text/javascript" src="scripts/jquery-3.6.0.js"></script>
+        <script type="text/javascript">
+            function showLarge(thumb) {
+                // console.log(thumb);
+                var pic_name = thumb.src;
+                // console.log(pic_name);
+                var large_name = pic_name.slice(0, -4) + "-large." + pic_name.slice(-3)
+                // console.log(large_name);
+
+                $('#large-photo').attr('src', large_name)
+                $('div.thumbnails img').removeClass('selected');
+                $(thumb).addClass('selected')
+            }
+
+            function getImages() {
+                var url = 'api/image_service.php'
+                var xhr = new XMLHttpRequest()
+                xhr.open('GET', url)
+                xhr.onload = function () {
+                    let result = xhr.responseText
+                    // console.log(result)
+                    let images  = JSON.parse(result)
+                    // console.log(images)
+                    let out = ""
+                    for(pict of images){
+                        // console.log(pict.url)
+                        out += `<img src="${pict.url}" onclick="showLarge(this);" />`
+                    }
+                    // console.log(out)
+                    document.getElementById("thumbnails").innerHTML = out;
+					var splitted = images[0].url.split(".");
+					var large_name = splitted[0] + "-large." + splitted[1];
+					// console.log(large_name);
+					document.getElementById("large-photo").src = large_name;
+					document.getElementById("large-photo").style.display = "";
+                }
+                xhr.send()
+            }
+
+            function getCurrency(){
+                var url = 'https://www.cbr-xml-daily.ru/daily_json.js';
+                var xhr = new XMLHttpRequest()
+                xhr.open('GET', url)
+                xhr.onload = function () {
+                    let result = xhr.responseText
+                    let data  = JSON.parse(result)
+                    let out = "";
+                    document.getElementById("currency").innerHTML = out;
+
+                    let date = data.Date.split("T")[0];
+                    let GBPcurrency = data.Valute.GBP.Value;
+                    let USDcurrency = data.Valute.USD.Value;
+                    let EURcurrency = data.Valute.EUR.Value;
+                    out += `Курс Валют на ${date} USD: ${USDcurrency}; EUR: ${EURcurrency}; GBP: ${GBPcurrency}` 
+                    document.getElementById("currency").innerHTML = out;
+                    console.log(date)
+                    console.log(data.Valute.GBP.Value);
+                }
+                xhr.send()
+
+                
+            }
+        </script>
+    </head>
+    <body onload="getImages();getCurrency();">
+        <div class="currency" id="currency" 
+        style="font-size: 14px; 
+        "> 
+        Идет загрузка..
+        </div>
+        <h1>Фотоальбом</h1>
+
+        <div class="thumbnails" id="thumbnails">
+			Идет загрузка..
+        </div>
+        <div class="large-photo">
+            <img src="images/april-meyer.jpg" id="large-photo" style="display: none;">
+        </div>
+    </body>
+</html>
