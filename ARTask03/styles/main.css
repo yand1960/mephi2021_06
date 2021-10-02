@@ -4,9 +4,11 @@ h1 {
     padding: 10px;
     border: solid black thin;
     border-radius: 10px;
+    margin-bottom: 5px;
 }
+
 div.thumbnails {
-    border:solid black thin;
+    border: solid black thin;
     width: 150px;
     float: left;
 }
@@ -35,4 +37,16 @@ div.thumbnails img:hover {
 
 div.thumbnails img.selected {
     border: solid thick blue;
+}
+
+div.info {
+    display: flex;
+    border-radius: 10px;
+
+    border: solid black thin;
+    font-weight: bold;
+    padding: 5px;
+    margin-bottom: 10px;
+    background-color: aquamarine;
+    justify-content: space-around;
 }
