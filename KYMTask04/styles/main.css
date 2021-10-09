@@ -1,0 +1,11 @@
+h1 {
+    /*color: #000000;*/
+    color: mintcream;
+    /*background-color: #BBBBBB;*/
+    background-color: rgb(92, 125, 226);
+    padding: 10px;
+    /*border: solid black thin;*/
+    border-radius: 10px;
+    text-align: center;
+    font-family: Verdana ;
+}
