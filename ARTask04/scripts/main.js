@@ -1,5 +1,5 @@
 function showLarge(thumb) {
-    const pic_name = thumb.src;
+    const pic_name = thumb.getAttribute("src");
     const splitted = pic_name.split(".");
     document.getElementById("large_photo").src = splitted[0] + "-large." + splitted[1];
     for (element of document.getElementsByClassName("thumbnails")[0].children) {
@@ -63,7 +63,9 @@ function getImages() {
         })
 }
 function getCurrencyInfo(){
-    fetch('https://www.cbr-xml-daily.ru/daily_json.js').then(response=>response.json()).then(resJson=>{
+    fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+        .then(response=>response.json())
+        .then(resJson=>{
         let {USD, EUR, GBP} = resJson["Valute"]
         let currency = [USD,EUR,GBP]
         let infoDiv = document.querySelector('.info');
