@@ -28,8 +28,8 @@ function getContent() {
             out += `<img src='${pict.url}' onclick='showLarge(this);' />`;
         }
         document.getElementById("thumbnails").innerHTML = out;
-        var splitted = images[0].url.split(".")
-        var large_name = splitted[0] + "-large." + splitted[1];
+        const pathLength = splitted.length;
+        var large_name = splitted[pathLength-2] + "-large." + splitted[pathLength-1];
         document.getElementById("large_photo").src = large_name;
         document.getElementById("large_photo").style.display = "";
     }
