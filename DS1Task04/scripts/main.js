@@ -3,7 +3,8 @@ function showLarge(thumb) {
     var pic_name = thumb.src;
     console.log(pic_name);
     var splitted = pic_name.split(".");
-    var large_name = splitted[0] + "-large." + splitted[1];
+    const pathLength = splitted.length;
+    var large_name = splitted[pathLength-2] + "-large." + splitted[pathLength-1];
     console.log(large_name);
     document.getElementById("large_photo").src = large_name;
     for(element of document.getElementsByClassName("thumbnails")[0].children) {
