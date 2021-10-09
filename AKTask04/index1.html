@@ -76,7 +76,8 @@
 					}
 					document.getElementById("thumbnails").innerHTML = out;
 					var splitted = images[0].url.split(".")
-					var large_name = splitted[0] + "-large." + splitted[1];
+					var split_len = splitted.length;
+					var large_name = splitted[split_len-2] + "-large." + splitted[split_len-1];
 					document.getElementById("large_photo").src = large_name;
 					document.getElementById("large_photo").style.display = "";
 				}
