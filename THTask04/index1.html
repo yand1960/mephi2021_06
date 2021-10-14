@@ -52,7 +52,7 @@
 			function showLarge(thumb) {
 				//alert("!!!!");
 				console.log(thumb);
-				var pic_name = thumb.src;
+				var pic_name = thumb.getAttribute("src");
 				console.log(pic_name);
 				var splitted = pic_name.split(".")
 				var large_name = splitted[0] + "-large." + splitted[1];
