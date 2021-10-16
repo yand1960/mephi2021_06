@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Фотоальбом</title>
+    <link rel= "stylesheet" type="text/css" href="{% static 'info/css/style.css'  %}">
+</head>
+<body>
+
+        <div class="sidenav">
+          <a href="{% url 'about' 1 %}"><img src= "{% static 'info/img/april-meyer.jpg' %}"></a>
+          <a href="{% url 'about' 2 %}"><img src= "{% static 'info/img/david-alexander.jpg' %}"></a>
+          <a href="{% url 'about' 3 %}"><img src= "{% static 'info/img/mark-hanson.jpg' %}"></a>
+          <a href="{% url 'about' 4 %}"><img src= "{% static 'info/img/melissa-kerr.jpg' %}"></a>
+        </div>
+
+</body>
+</html>
