@@ -1,0 +1,115 @@
+<html>
+<head>
+    <title>Мой альбом</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="styles/main.css"/>
+    <style>
+        div.thumbnails {
+            width: 150px;
+            float: left;
+        }
+
+        div.thumbnails img {
+            margin: 5px;
+            border-radius: 50%;
+            display: block;
+            width: 130px;
+            border: solid white thin;
+        }
+
+        div.large-photo {
+            float: left;
+        }
+
+        div.large-photo img {
+            width: 400px;
+            margin-left: 10px;
+        }
+
+        div.thumbnails img:hover {
+            border: solid red thick;
+            cursor: pointer;
+        }
+
+        div.thumbnails img.selected {
+            border: solid blue thick;
+        }
+    </style>
+    <script src="scripts/jquery-3.6.0.js"></script>
+    <script>
+        function showLarge(thumb) {
+            var id = thumb.id.replace("thmb", "");
+            var url = "api/image_info_service.php?id=" + id;
+            console.log(url);
+            $.getJSON(url, function (info) {
+                var large_name = "images/" + info.url;
+                $("#large_photo").attr("src", large_name);
+                $("div.thumbnails img").removeClass("selected");
+                $(thumb).addClass("selected");
+                $("#large-photo").css("display", "");
+                $("#photo_info").css("display", "");
+                let out = '<p>Название фотографии: ' + info.name + '</p>' + '<p>Дата создания фотографии: ' + info.created + '</p>';
+                document.getElementById("photo_info").innerHTML = out;
+
+            });
+        }
+
+        function getImages() {
+            var url = "api/image_service_db.php";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.onload = function () {
+                let result = xhr.responseText;
+                let images = JSON.parse(result);
+                let out = "";
+                for (pict of images) {
+                    out += '<img id="thmb' + pict[0] + '"' + ' src=' + pict[1] + '' + '"images/" onclick="showLarge(this);" />';
+                }
+                document.getElementById("thumbnails").innerHTML = out;
+            };
+            xhr.send();
+        }
+
+        function getRate() {
+            var url = "https://www.cbr-xml-daily.ru/daily_json.js";
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("GET", url);
+            xhr.onload = function () {
+                let result = xhr.responseText;
+                let array = JSON.parse(result);
+                var out_Usd = '<p>Курс доллара: ' + (array.Valute.USD.Value) + '</p>';
+                document.getElementById("rate_usd").innerHTML = out_Usd;
+                var out_Eur = '<p>Курс евро: ' + (array.Valute.EUR.Value) + '</p>';
+                document.getElementById("rate_eur").innerHTML = out_Eur;
+                var out_Gbp = '<p>Курс фунта: ' + (array.Valute.GBP.Value) + '</p>';
+                document.getElementById("rate_gbp").innerHTML = out_Gbp;
+            }
+            xhr.send();
+        }
+
+    </script>
+</head>
+<body onload="getImages(); getRate();">
+<h1>Курс валют</h1>
+<div style="border: solid; border-radius: 7px; border-width: 1px; width: 30vh;">
+    <div id="rate_usd" style="margin-left: 2vh;">
+    </div>
+    <div id="rate_eur" style="margin-left: 2vh;">
+    </div>
+    <div id="rate_gbp" style="margin-left: 2vh;">
+    </div>
+</div>
+
+<h1>Фотоальбом Web API</h1>
+<div class="thumbnails" id="thumbnails">
+
+</div>
+<div class="large-photo">
+    <img id="large_photo"/>
+    <div id="photo_info"
+         style="margin: 15px; text-align: center; border: solid; border-radius: 7px; border-width: 1px; width: 30vh; display: none;"></div>
+</div>
+</body>
+</html>
