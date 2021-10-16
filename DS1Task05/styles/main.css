@@ -1,0 +1,12 @@
+h1 {
+    color: #000000;
+    background-color: #BBBBBB;
+    padding: 10px;
+    border: solid black thin;
+    border-radius: 10px;
+}
+
+div.thumbnails p {
+    display: block;
+    margin-left: 20px;
+}
