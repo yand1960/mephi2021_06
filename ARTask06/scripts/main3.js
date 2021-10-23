@@ -9,6 +9,24 @@ function showLarge(thumb) {
             date = json.date
             const myImg = document.getElementById('large_photo')
             myImg.src = url
+            if (myImg.style.visibility === "hidden")
+                myImg.style.visibility = "visible"
+
+            myImg.animate([
+                // keyframes
+                {
+                    transform: 'translateX(+100em) scale(10%) rotate(360deg)'
+                },
+                {
+                    transform: 'translateX(0) scale(100%)'
+                }
+            ], {
+                // timing options
+                duration: 750,
+                iterations: 1,
+                delay: 0
+            })
+            // Не успел найти способ переиспользовать анимацию на keyframes из css
 
             const meta = document.getElementById('image_meta')
             meta.innerHTML = ''
@@ -89,6 +107,7 @@ function getCurrencyInfo() {
             let {USD, EUR, GBP} = resJson["Valute"]
             let currency = [USD, EUR, GBP]
             let infoDiv = document.querySelector('.info')
+            infoDiv.innerHTML = ''
             currency.forEach(item => {
                 let elem = document.createElement('div')
                 elem.innerText = `${item['CharCode']}: ${item['Value']}`
