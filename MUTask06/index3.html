@@ -1,0 +1,186 @@
+<html>
+	<head>
+		<title>Мой альбом</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="styles/main.css" />
+		<style>
+			div.thumbnails {
+				/* border:solid black thin; */
+				width: 150px;
+				float: left;
+			}
+			
+			div.thumbnails img {
+				margin: 5px;
+				border-radius: 50%;
+				display: block;
+				width: 130px;
+				border: solid white thick;
+			}
+			
+			div.large-photo {
+				float: left;
+			}
+			
+			div.large-photo img {
+				width: 400px;
+				margin-left: 10px;
+			}
+			
+			div.thumbnails img:hover {
+				/* border: solid red thick; */
+				cursor: pointer;
+                box-shadow: 0px 0px 1px 1px
+                background-position: 0 0;
+         
+			}
+			
+			div.thumbnails img.selected {
+				border: solid thick grey;
+                border-radius: 0 3px 3px 0;
+                background-position: 0 0;
+			}
+
+                            .image {
+                overflow:hidden;
+                width: 150px;
+                height:150px;
+                }
+
+                            .image img {
+                -moz-transition: all 1s ease-out;
+                -o-transition: all 1s ease-out;
+                -webkit-transition: all 1s ease-out;
+                }
+                
+                .image img:hover{
+                -webkit-transform: scale(1.1);
+                -moz-transform: scale(1.1);
+                -o-transform: scale(1.1);
+                }
+
+
+			.box {
+				display: flex;
+  				flex-direction: column;
+  				justify-content: space-between;
+				  justify-content:center; 
+			
+  			
+				}
+				.box1 {
+				display: flex;
+  				/* flex-direction: column; */
+				  margin: 10px;
+				  justify-content:center; 
+				  outline: 2px solid #000; /* Чёрная рамка */
+    				border: 3px solid #fff; /* Белая рамка */
+    			border-radius: 5px;
+				align-content: center;
+				text-align:center;
+				font-family: Snell Roundhand, cursive;
+  		
+				}
+
+
+                                .container {
+                position: relative;
+                max-width: 800px; Maximum width
+                margin: 0 auto; /* Center it */
+                }
+
+            .container .content {
+            position: absolute; /* Position the background text */
+            bottom: 0; /* At the bottom. Use top:0 to append it to the top */
+            background: rgb(0, 0, 0); /* Fallback color */
+            background: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+            color: #f1f1f1; /* Grey text */
+            margin-left: 10px;
+            padding: 20px;
+            }
+
+		</style>
+		<script src="scripts/jquery-3.6.0.js"></script>
+		<script>
+			function showLarge(thumb) {
+				//alert("!!!!");
+
+				var id = thumb.id.replace("thmb",'')
+				var url = "api/image_info_service.php?id=" + id;
+
+				console.log(url)
+
+				$.getJSON(url,function(info){
+					console.log(info)
+					var large_name = "images/" + info.url;
+					$("#large_photo").attr("src",large_name);
+					$("div.thumbnails img").removeClass("selected");
+					$(thumb).addClass("selected");
+					$("#large_photo").css("display","");
+					$("#span_id").show();
+					$("#span_id1").show();
+					$("#span_id").text("Name: " + info.name + " Data created: " + info.created );
+					$("#span_id1").text();
+					
+				})
+				// console.log(thumb);
+				// var pic_name = thumb.src;
+				// console.log(pic_name);
+				// var splitted = pic_name.split(".")
+				// var large_name = splitted[0] + "-large." + splitted[1];
+				// console.log(large_name);
+
+				// document.getElementById("large_photo").src = large_name;
+				// for(element of document.getElementsByClassName("thumbnails")[0].children) {
+				// 	element.classList.remove("selected")
+				// }
+				// thumb.classList.add("selected");
+
+				// $("#large_photo").attr("src",large_name);
+				// $("div.thumbnails img").removeClass("selected");
+				// $(thumb).addClass("selected")
+
+			}
+
+			function getImages() {
+				var url = "api/image_service_db.php"
+				// var url = "http://127.0.0.1:8001/YA01_PhotoAlbum/api/image_service.php"
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", url);
+				xhr.onload = function() {
+					let result = xhr.responseText;
+					console.log(result);
+					let images = JSON.parse(result);
+					console.log(images);
+					let out = "";
+					for(pict of images) {
+						console.log(pict[1]);
+						out += `<div class = "image"><img class="card" id="thmb${pict[0]}" src="images/${pict[1]}" onclick="showLarge(this);" /></div>`;		    
+					}
+					console.log(out);
+					document.getElementById("thumbnails").innerHTML = out;
+					// var splitted = images[0][1].split(".");
+					// var large_name = splitted[0] + "-large." + splitted[1];
+					// document.getElementById("large_photo").src = large_name;
+					// document.getElementById("large_photo").style.display = "";
+				};
+				xhr.send();
+			}
+		
+		</script>
+	</head>
+	<body onload="getImages();">
+		<h1>Фотоальбом Web API</h1>
+
+		<div class="thumbnails scrolling-wrapper" id="thumbnails">
+			Идет загрузка...
+		</div>
+        
+		<div class="large-photo box container" >
+			<img src="" id="large_photo" style="display: none;" />
+			<div><span class="content" style="display: none;" id="span_id"></span></div>
+			<!-- <div><span class="box1" style="display: none;" id="span_id1"></span></div> -->
+		<div>
+			
+	</body>
+</html>
