@@ -1,0 +1,165 @@
+<html>
+	<head>
+		<title>Мой альбом</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="styles/main.css" />
+		<style>
+			div.thumbnails {
+				border:solid black thin;
+				width: 150px;
+				float: left;
+			}
+			
+			div.thumbnails img {
+				margin: 5px;
+				border-radius: 50%;
+				display: block;
+				width: 130px;
+				border: solid white thick;
+			}
+			
+			div.large-photo {
+				float: left;
+				position: relative;
+			}
+			
+			div.large-photo img {
+				width: 398px;
+				margin-left: 10px;
+				display: block;
+				margin-bottom: 20px;
+			}
+			
+			div.thumbnails img:hover {
+				border: solid red thick;
+				cursor: pointer;
+			}
+			
+			div.thumbnails img.selected {
+				border: solid blue thick ;
+			}
+
+			div.rate {
+				border:solid black thin;	
+				padding: 10px;
+				margin-bottom: 10px;
+				width: 540px;
+			}
+
+			span.photoName{
+				font-size: 20px;
+			}
+
+			span.photoDate {
+				margin-left: 20px;
+				font-size: 15px;
+				float: right;
+			}
+
+			div.splitLine {
+				border-top: 2px solid black;
+				margin-left: 10px;
+				padding-top: 5px;
+			}
+			div.overlay {
+				position: absolute;
+				margin-left: 10px;
+				width: 398px;
+				bottom: 50px;
+				left: 0;
+				right: 0;
+				background-color: #777b7c70;
+				/* overflow: hidden; */
+				height:0;
+				transition-duration: 3s;
+				animation-direction: alternate-reverse;
+				transition: .3s ease-in;
+				
+				}
+
+		</style>
+		<script src="scripts/jquery-3.6.0.js"></script>
+		<script>
+			function showLarge(thumb) {
+				// console.log(thumb);
+				var id = thumb.id.replace("thmb", "");
+				var url = "api/image_info_service.php?id= " + id;
+				console.log(url)
+
+				$.getJSON(url, function(info){
+					console.log(info);
+					$("#overlay").css("height", "380px");
+					var large_name = "images/" + info.url;
+					$("#large_photo").attr("src",large_name);
+					$("div.thumbnails img").removeClass("selected");
+					$(thumb).addClass("selected");
+					$("#large_photo").css("display", "");
+					$("#splitLine").css("display", "");
+					$("#photoName").text(info.name.toUpperCase());
+					$("#photoDate").text(info.created);
+				});	
+			}
+
+				function getImages() {
+					var url = "api/image_serviceDB.php";
+					var xhr = new XMLHttpRequest();
+					xhr.open("GET", url);
+					xhr.onload = function() {
+						let result = xhr.responseText;
+						// console.log(result);
+						let images = JSON.parse(result);
+						let out="";
+						for(pic of images) {
+							// console.log(pic.url);
+							out += `<img id="thmb${pic[0]}" src="images/${pic[1]}"onclick="showLarge(this);"/>`;
+						}
+						document.getElementById("thumbnails").innerHTML = out;
+						
+					};
+					xhr.send();
+				}
+
+				function getData() {
+					var url = "https://www.cbr-xml-daily.ru/daily_json.js";
+					var xhr = new XMLHttpRequest();
+					xhr.open("GET", url);
+					xhr.onload = function() {
+						let result = JSON.parse(xhr.responseText);
+						var rates = ["USD", "EUR", "GBP"];
+						// console.log(result.Valute["AMD"].CharCode)
+						// console.log(rates[0]);
+						// console.log(Object.keys(result.Valute).length);
+						let out="Данные по курсу: <br>";
+						for (i = 0; i < rates.length; i++) {
+							try {
+							out += `<span> ${result.Valute[rates[i]].Nominal} 
+											${result.Valute[rates[i]].Name} = 
+											${result.Valute[rates[i]].Value} руб.
+								<br></span>`;
+							}
+							catch {
+								out += `<span> ${rates[i]} - нет данных <br></span>`
+							}		
+						}	
+						document.getElementById("rate").innerHTML = out;	
+					};
+					xhr.send();
+				}
+
+		
+		</script>
+	</head>
+	<body onload="getImages(); getData();">
+		<h1>Фотоальбом Web API</h1>
+		<div class="rate" id="rate">Загрузка данных по курсу</div>
+		<div class="thumbnails" id="thumbnails">Идет загрузка...</div>		
+		<div class="large-photo" >
+			<img src="images/april-meyer.jpg" id="large_photo" style="display: none;"/>
+			<div class="overlay" id="overlay"></div>
+			<div class="splitLine" id = "splitLine" style="display: none;">
+			<span class="photoName" id = "photoName">Имя</span>
+			<span class="photoDate" id = "photoDate">Дата создания</span>
+			</div>
+		<div>
+	</body>
+</html>
