@@ -1,0 +1,124 @@
+<html>
+	<head>
+		<title>Мой альбом</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="styles/main.css" />
+		<style>
+			div.thumbnails {
+				border:solid black thin;
+				width: 150px;
+				float: left;
+			}
+			
+			div.thumbnails img {
+				margin: 5px;
+				border-radius: 50%;
+				display: block;
+				width: 130px;
+				border: solid white thick;
+			}
+			
+			div.large-photo {
+				float: left;
+			}
+			
+			div.large-photo img {
+				width: 400px;
+				margin-left: 10px;
+			}
+			
+			div.thumbnails img:hover {
+				border: solid red thick;
+				cursor: pointer;
+				transform: scale(1.2);
+			}
+			
+			div.thumbnails img.selected {
+				border: solid thick blue;
+			}
+
+			div.large-photo img:hover{
+				opacity: 1;
+ 
+ /*Отражение*/
+-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(.7, transparent), to(rgba(0,0,0,0.4)));
+
+ /*Свечение*/
+-webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+-moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+			}
+
+.large-photo {
+  position: relative;
+}
+
+.large-photo h2 {
+  margin: 0px;
+  margin-left: 10px;
+  position: absolute;
+  bottom: 0;
+  padding: 6px 20px 6px 10px;
+  background: hsla(255, 3%, 29%, 0.6);
+  color: white;
+}
+		</style>
+		<script src="scripts/jquery-3.6.0.js"></script>
+		<script>
+			function showLarge(thumb) {
+				var id = thumb.id.replace("thmb", "")
+				var url ="api/image_info_service.php?id=" + id;
+
+				console.log(url);
+
+				$.getJSON(url,function(info){
+					console.log(info);
+					var large_name = "images/" + info.url;
+					$("#large_photo").attr("src",large_name);
+					$("div.thumbnails img").removeClass("selected");
+					$(thumb).addClass("selected");
+					$("#large_photo").show();
+
+                    var info_photo = `${info.name}<br> ${info.created}`;
+                    $('#info_photo').html(info_photo);
+                    $('#info_photo').show();
+
+				});
+			}
+
+			function getImages() {
+				var url = "api/image_service_db.php"
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", url);
+				xhr.onload = function() {
+					let result = xhr.responseText;
+					console.log(result);
+					let images = JSON.parse(result);
+					console.log(images);
+					let out = "";
+					for(pict of images) {
+						console.log(pict[1]);
+						out += `<img id="thmb${pict[0]}" src="images/${pict[1]}" onclick="showLarge(this);" />`;		    
+					}
+					console.log(out);
+					document.getElementById("thumbnails").innerHTML = out;
+				};
+				xhr.send();
+			}
+		
+		</script>
+	</head>
+
+	<body onload="getImages();">
+		<h1>Фотоальбом Web API</h1>
+		<div class="thumbnails" id="thumbnails">
+			Идет загрузка...
+		</div>
+
+		<div class="large-photo"  >
+			<img src="" id="large_photo" style="display: none;" />
+			<h2 id='info_photo' style="display: none;"></h2>
+		</div>
+
+	</body>
+</html>
