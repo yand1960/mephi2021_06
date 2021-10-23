@@ -47,6 +47,7 @@
 -webkit-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 -moz-box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
+
 			}
 
 .large-photo {
@@ -61,6 +62,39 @@ box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
   padding: 6px 20px 6px 10px;
   background: hsla(255, 3%, 29%, 0.6);
   color: white;
+}
+
+.wrap {width:200px; margin:auto;  z-index:1;}
+
+.msg {
+  color: whitesmoke;
+  text-align:center;
+  font-family: 'Bree Serif', Courier, monospaced;
+  font-size:1.5em;
+  width:200px;
+  position:absolute;
+  margin:55px 0 0 2px;
+  pointer-events: none; 
+}
+
+.sticker {
+  width:200px;
+  height:200px;
+  position:absolute;
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/13034/sticker.png) top center no-repeat; 
+  animation: spin 10s linear infinite;
+  /*Set our animation play state to paused initially */
+  animation-play-state: paused; 
+}
+
+.sticker:hover {
+  /* Toggle our animation play state to running when we are hovering over our sticker */
+  animation-play-state: running;
+}
+
+
+@keyframes spin {
+  100% {transform: rotate(1turn); }
 }
 		</style>
 		<script src="scripts/jquery-3.6.0.js"></script>
@@ -120,5 +154,11 @@ box-shadow: 0px 0px 20px rgba(255,255,255,0.8);
 			<h2 id='info_photo' style="display: none;"></h2>
 		</div>
 
+		<link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+
+		<div class="wrap">
+		  <div class="sticker"></div>
+		  <div class="msg">Выбирай </br>фото!</div>
+		</div>
 	</body>
 </html>
