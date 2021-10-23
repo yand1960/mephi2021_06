@@ -1,0 +1,39 @@
+<html>
+    <head>
+
+    </head>
+    <style>
+        div{
+            width: 150px;
+            height: 150px;
+            display: inline-block;
+            transform: translate(350px);
+            transition-property: transform;
+            transition-duration: 12s;
+        }
+    </style>
+    <body>
+        <div id="div1">
+            <img src="../icons/ghost.png" width="120" height="170">
+        </div>
+        <button onclick="stopTimer()">stop</button>
+    </body>
+    <script>
+        var position = 0;
+        var tm;
+        tm = window.setInterval(function(){
+            if(position < 5000){
+                position += 30;
+                document.getElementById("div1").style.transform = "translate(" + position +"px)";
+                console.log(position);
+            }
+            if(position > 5000){
+                window.clearInterval(tm);
+                document.getElementById("div1").style.transform = "translate(350px)";
+            }
+        },50);
+        function stopTimer(){
+            window.clearInterval(tm);
+        }
+    </script>
+</html>
