@@ -1,0 +1,95 @@
+<html>
+<head>
+    <title>Мой альбом</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="styles/main.css"/>
+    <style>
+        div.thumbnails {
+            width: 150px;
+            float: left;
+        }
+
+        div.thumbnails img {
+            margin: 5px;
+            border-radius: 50%;
+            display: block;
+            width: 130px;
+            border: solid white thin;
+        }
+
+        div.large-photo {
+            float: left;
+        }
+
+        div.large-photo img {
+            width: 400px;
+            margin-left: 10px;
+        }
+
+        div.thumbnails img:hover {
+            border: solid rgb(204, 216, 37) thick;
+            cursor: pointer;
+        }
+
+        div.thumbnails img.selected {
+            border: solid rgb(93, 93, 136) thick;
+        }
+        
+        body {background-color: rgb(93, 93, 136) ;}
+    </style>
+    <script src="scripts/jquery-3.6.0.js"></script>
+    <script>
+        function showLarge(thumb) {
+            var id = thumb.id.replace("thmb", "");
+            var url = "api/image_info_service.php?id=" + id;
+            console.log(url);
+            $.getJSON(url, function (info) {
+                var large_name = "images/" + info.url;
+                $("#large_photo").attr("src", large_name);
+                $("div.thumbnails img").removeClass("selected");
+                $(thumb).addClass("selected");
+                $("#large-photo").css("display", "");
+                $("#comment").css("display","");
+                $("#photo_info").css("display", "");
+                let out = '<p>Название фотографии: ' + info.name + '</p>' + '<p>Дата создания фотографии: ' + info.created + '</p>';
+                document.getElementById("photo_info").innerHTML = out;
+            });
+        }
+
+        function getImages() {
+            var url = "api/image_service_db.php";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.onload = function () {
+                let result = xhr.responseText;
+                let images = JSON.parse(result);
+                let out = "";
+                for (pict of images) {
+					out += '<img id="thmb'+ pict[0] + '"' + ' src=' + pict[1] + '' + '"images" onclick="showLarge(this);" />';
+                }
+                document.getElementById("thumbnails").innerHTML = out;
+                console.log("ok");
+            };
+            xhr.send();
+        }
+
+        tm = window.setInterval(function(){
+            document.getElementById("large-photo").style.transform = "blur(10px)";
+        }, 2000);
+    </script>
+</head>
+<body onload="getImages();">
+
+
+<h1>Фотоальбом Web API</h1>
+<div class="thumbnails" id="thumbnails">
+
+</div>
+<div class="large-photo">
+    <img id="large_photo"/>
+    <div id="photo_info"
+         style="margin: 15px; text-align: center; border: solid; border-radius: 7px; border-width: 1px; width: 30vh; display: none;"></div>
+</div>
+</body>
+</html>

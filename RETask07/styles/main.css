@@ -1,0 +1,12 @@
+h1 {
+    color: rgb(93, 93, 136);
+    background-color: rgb(93, 93, 136) ;
+    padding: 10px;
+    border: solid rgb(93, 93, 136);
+    border-radius: 10px;
+}
+
+div.thumbnails p {
+    display: block;
+    margin-left: 20px;
+}
