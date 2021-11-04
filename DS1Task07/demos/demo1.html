@@ -1,0 +1,45 @@
+<html>
+    <head></head>
+    <style>
+        div {
+            border: thin black solid;
+            height: 100px;
+            margin: 6px;
+            width: 100px;
+            display: inline-block;
+            vertical-align: middle;
+            transition-property: transform;
+            transition-duration: 3s;
+        }
+
+        div#div1 {
+            background-color: blueviolet;
+        }
+
+        div#div2 {
+            background: linear-gradient(45deg, blue, white);
+            width: 120px;
+            height: 120px;
+        }
+
+        div#div3 {
+            background: radial-gradient(red, blue);
+            border-radius: 50%;
+        }
+
+        div:hover {
+            transform: scale(120%) rotate(180deg);
+        }
+
+        @media print {
+            div#div2 {
+                display: none;
+            }
+        }
+    </style>
+    <body>
+        <div id="div1"></div>
+        <div id="div2"></div>
+        <div id="div3"></div>
+    </body>
+</html>
