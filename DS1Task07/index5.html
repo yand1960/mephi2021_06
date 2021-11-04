@@ -35,6 +35,10 @@
             border: solid blue thick;
         }
 
+        #add_photo {
+            margin: 20px;
+        }
+
         
     </style>
     <script src="scripts/jquery-3.6.0.js"></script>
@@ -118,9 +122,12 @@
 
 </div>
 <div class="large-photo">
+    <div id="add_photo">
+        <a href=./api/add_photo.php>Для добавления фото перейдите по ссылке</a>
+    </div> 
     <img id="large_photo"/>
     <div id="photo_info"
-         style="margin: 15px; text-align: center; border: solid; border-radius: 7px; border-width: 1px; width: 30vh; display: none;"></div>
+         style="margin: 15px; text-align: center; border: solid; border-radius: 7px; border-width: 1px; width: 50vh; display: none; border: solid blue thin"></div>
 </div>
 </body>
 </html>

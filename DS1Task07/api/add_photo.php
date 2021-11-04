@@ -2,7 +2,7 @@
     <head>
         <title>Окно загрузки фотографий</title>
         <meta charset="utf-8"/>
-        <link rel="stylesheet" href="styles/main.css"/>
+        <link rel="stylesheet" href="../styles/main.css"/>
         <style>
             div.thumbnails {
                 width: 150px;
@@ -39,6 +39,7 @@
         </style>
     </head>
     <body>
+    <h1>Окно добавления фотографий</h1>
     <form action="upload.php" method="post" enctype="multipart/form-data">
         Выберите изображение для загрузки:
         <input type="file" name="fileToUpload" id="fileToUpload">
