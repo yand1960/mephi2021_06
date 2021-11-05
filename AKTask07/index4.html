@@ -1,0 +1,97 @@
+<html>
+<head>
+    <title>Мой альбом</title>
+    <meta charset="utf-8"/>
+    <meta charset="utf-8"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        div.thumbnails {
+            width: 150px;
+            float: left;
+        }
+
+        div.thumbnails img {
+            margin: 5px;
+            border-radius: 50%;
+            display: block;
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border: solid white thin;
+        }
+
+        div.large-photo img {
+            width: 395px;
+            margin-left: 10px;
+            margin-top: 8px;
+            border-radius: 5%;
+            float: left;
+        }
+
+        div.thumbnails img:hover {
+            transform: scale(110%);
+            transition-property: transform;
+            transition-duration: 0.3s;
+            cursor: pointer;
+        }
+
+        div.thumbnails img.selected {
+            transform:translate(20px);
+            transition-property: transform;
+            transition-duration: 0.5s;
+        }        
+    </style>
+    <script src="scripts/jquery-3.6.0.js"></script>
+    <script>
+        function showLarge(thumb) {
+            var id = thumb.id.replace("thmb", "");
+            var url = "api/image_info_service.php?id=" + id;
+            console.log(url);
+            $.getJSON(url, function (info) {
+                var large_name = "images/" + info.url;
+                $("#large_photo").attr("src", large_name);
+                $("div.thumbnails img").removeClass("selected");
+                $(thumb).addClass("selected");
+                $("#large-photo").css("display", "");
+                $("#comment").css("display","");
+                $("#photo_info").css("display", "");
+                let out = '<p>Описание: ' + info.name + '</p>' + '<p>Дата создания: ' + info.created + '</p>';
+                document.getElementById("photo_info").innerHTML = out;
+            });
+        }
+
+        function getImages() {
+            var url = "api/image_service_db.php";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.onload = function () {
+                let result = xhr.responseText;
+                let images = JSON.parse(result);
+                let out = "";
+                for (pict of images) {
+					out += '<img id="thmb'+ pict[0] + '"' + ' src="images/' + pict[1] + '"' + ' onclick="showLarge(this);" />';
+                }
+                document.getElementById("thumbnails").innerHTML = out;
+                console.log("ok");
+            };
+            xhr.send();
+        }
+    </script>
+</head>
+<body onload="getImages();" style="font-family: 'Montserrat';">
+    <div class="jumbotron">
+        <h1>Фотоальбом add_photo</h1>
+        <a href="./api/add_photo.php" class="btn btn-outline-secondary">Добавить фото</a>
+    </div>
+    <div class="thumbnails" id="thumbnails"></div>
+    <div class="large-photo">
+        <img id="large_photo"/>
+        <div id="photo_info"
+            style="margin-left: 600px; padding-top: 150px; display: none;"></div>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+</html>
