@@ -372,7 +372,7 @@ window.onclick = function(event) {
 //     setTimeout(() => ctrl.abort(), 5000);
 //     console.log(formData.get('photo'));
 //     try {
-//        let r = await fetch('/MUTask06/api/add_photo.php', 
+//        let r = await fetch('/MUTask07/api/add_photo/api/add_photo.php', 
 //          {method: "POST", body: formData, signal: ctrl.signal}); 
 //        console.log('HTTP response code:',r.status); 
 //     } catch(e) {
@@ -390,7 +390,7 @@ function SavePhoto()
     formData.append('photo', photo);
     console.log(photo);
    
-    xhr.open("POST", '/MUTask06/api/add_photo.php', true);
+    xhr.open("POST", '/MUTask07/api/add_photo.php', true);
     xhr.send(formData);
     xhr.onload = function() {
       let result = xhr.responseText;
