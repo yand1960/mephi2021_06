@@ -1,0 +1,113 @@
+<html>
+    <head>
+        <title>Мой альбом</title>
+        <meta charset = "utf-8" />
+        <link rel = "stylesheet" href = "styles/main.css" />
+        <style>
+            div.thumbnails {
+                width: 150px;
+                float: left;
+            }
+            div.thumbnails img {
+                margin: 5px;
+                border-radius: 50%;
+                display: block;
+                width: 130px;
+                border: solid white thin;
+            }
+            div.large-photo {
+                float: left;
+            }
+            div.large-photo img {
+                width: 400px;
+                margin-left: 10px;
+            }
+            div.thumbnails img:hover{
+                border: solid red thin;
+                cursor: pointer;
+            }
+            div.thumbnails img.selected{
+                border: solid blue thin;
+            }
+        </style>
+        <script src = "scripts/jquery-3.6.0.js"></script>
+        <script>
+            function showLarge(thumb){
+                console.log(thumb);
+                var pic_name = thumb.src;
+                console.log(pic_name);
+                var splitted = pic_name.split(".");
+                splitted.pop();
+                var large_name = splitted.join(".") + "-large.jpg";
+                $("#large_photo").attr("src", large_name);
+                $("div.thumbnails img").removeClass("selected");
+                $(thumb).addClass("selected");
+            }
+            function getImages(){
+                var url = "api/image_service.php";
+                
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", url);
+                xhr.onload = function() {
+                    let result = xhr.responseText;
+                    console.log(result);
+                    let images = JSON.parse(result);
+                    console.log(images);
+                    let out = "";
+                    for(pict of images){
+                        console.log(pict.url);
+                        out += '<img src="' + pict.url + '"' + ' onclick="showLarge(this);" />';
+                    }
+                    console.log(out);
+                    document.getElementById("thumbnails").innerHTML = out;
+                };
+                xhr.send();
+            }
+
+            function getRate(){
+                var url = "https://www.cbr-xml-daily.ru/daily_json.js";
+                var xhr = new XMLHttpRequest();
+                console.log(xhr);
+                xhr.open("GET", url);
+                xhr.onload = function(){
+                    let result = xhr.responseText;
+                    console.log(result);
+                    let array = JSON.parse(result);
+                    let Usd = (array.Valute.USD.Value);
+                    console.log(Usd);
+                    out_Usd = '<p>Курс доллара: ' + Usd + '</p>';
+                    document.getElementById("rate_usd").innerHTML = out_Usd;
+                    let Eur = (array.Valute.EUR.Value);
+                    console.log(Eur);
+                    out_Eur = '<p>Курс евро: ' + Eur + '</p>';
+                    document.getElementById("rate_eur").innerHTML = out_Eur;
+                    let Gbp = (array.Valute.GBP.Value);
+                    console.log(Gbp);
+                    out_Gbp = '<p>Курс фунта: ' + Gbp + '</p>';
+                    document.getElementById("rate_gbp").innerHTML = out_Gbp;
+                }
+                xhr.send();
+            }
+
+        </script>
+    </head>
+    <body onload="getImages(); getRate();">
+        <h1>Курс валют</h1>
+        <div style="border: solid; border-radius: 7px; border-width: 1px; width: 30vh;">
+            <div id="rate_usd" style="margin-left: 2vh;">
+            </div>
+            <div id="rate_eur" style="margin-left: 2vh;">
+            </div>
+            <div id="rate_gbp" style="margin-left: 2vh;">
+            </div>
+        </div>
+
+        <h1>Фотоальбом Web API</h1>
+        <div class = "thumbnails" id="thumbnails">
+
+        </div>
+        <div class = "large-photo">
+            <img id = "large_photo" />
+        </div>
+    </body>
+</html>

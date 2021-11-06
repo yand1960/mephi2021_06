@@ -1,0 +1,46 @@
+h1 {
+    /*color: #000000;*/
+    color: mintcream;
+    /*background-color: #BBBBBB;*/
+    background-color: rgb(92, 125, 226);
+    padding: 10px;
+    /*border: solid black thin;*/
+    border-radius: 10px;
+    text-align: center;
+    font-family: Verdana ;
+}
+.hidden{
+    display: none;
+}
+.info-block-style{
+    border: solid rgb(92, 125, 226);
+    border-radius: 10px;
+    margin-top: 20px;
+    padding-left: 20px;
+    margin-left: 10px;
+}
+.stylish-btn{
+    width: 115px;
+    margin-top: 20px;
+}
+.stylish-btn-1{
+    width: 155px;
+    margin-top: 20px;
+}
+.back-btn{
+    width: 155px;
+    margin-left: 10px;
+}
+.col{
+    display: flex;
+    flex-flow: column wrap;
+    margin-left: 10px;
+}
+.hdr{
+    border: solid rgb(92, 125, 226);
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 4px;
+    color:rgb(92, 125, 226);
+}
