@@ -25,31 +25,29 @@ h1 {
     margin-bottom: 5px;
 }
 
-div.thumbnails {
-    border: solid black thin;
-    width: 150px;
+.container {
+    width: 180px;
     float: left;
     animation: 0.5s ease-out 0s 1 slideFromLeft;
+
+}
+
+div.thumbnails {
+    border: solid black thin;
+    max-height: 83%;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 div.thumbnails img {
-    margin: 5px;
+    margin: 5px 5px 5px 5px;
     border-radius: 50%;
     display: block;
     width: 130px;
+    height: 130px;
     border: solid white thick;
 }
 
-div.large-photo {
-    float: left;
-}
-
-div.large-photo img {
-    width: 400px;
-    margin-left: 10px;
-    margin-bottom: 2px;
-
-}
 
 div.thumbnails img:hover {
     border: solid red thick;
@@ -61,6 +59,17 @@ div.thumbnails img:hover {
 
 div.thumbnails img.selected {
     border: solid thick blue;
+}
+
+div.large-photo {
+    float: left;
+}
+
+div.large-photo img {
+    width: 400px;
+    margin-left: 10px;
+    margin-bottom: 2px;
+
 }
 
 div.info {
@@ -88,6 +97,58 @@ div.info {
     margin-top: 0;
     margin-bottom: 2px;
 }
-.line{
+
+.line {
     animation: 1s ease-out 0s 1 slideFromBottom;
 }
+
+.add_photo {
+    width: 100%;
+    height: 2rem;
+    margin-bottom: 10px;
+    background-color: #e7e7e7;
+    font-weight: bold;
+}
+
+.add_photo:hover {
+    background-color: #cecece;
+}
+
+.popup {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.popup .popup-content {
+    display: flex;
+    flex-direction: column;
+    margin: 40px auto 0 auto;
+    width: 30%;
+    padding: 10px;
+    background-color: #c5c5c5;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #000;
+}
+.popup-content form{
+    display: flex;
+    flex-direction: column;
+
+}
+.popup-content *{
+    margin-bottom: 5px;
+    margin-top: 0;
+
+}
+.preview {
+     /*margin: 5px 5px 5px 5px;*/
+     border-radius: 50%;
+     /*display: block;*/
+     width: 130px;
+     height: 130px;
+     /*border: solid white thick;*/
+ }

@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+    <title>Мой альбом</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="scripts/main.js"></script>
+</head>
+<body onload="Init()">
+<div class="popup" style="display: none">
+    <div class="popup-content">
+        <p>Меню добавления фото</p>
+        <form action="api/add_photo.php" method="post" enctype="multipart/form-data">
+            <img class="preview"/>
+            <input type="file" name="the_file" accept=".jpg, .jpeg" onchange="makePreview(event)" required>
+            <input type="text" placeholder="Название фото" name="name">
+            <input type="text" placeholder="Описание фото" name="description">
+            <button type="submit" name="submit">Добавить</button>
+        </form>
+    </div>
+</div>
+
+<h1>Фотоальбом html с подгрузкой из php и анимациями</h1>
+<div class="info">
+    Загрузка курса валют
+</div>
+<div class="container">
+    <button class="add_photo" onclick="popUpShow()">Добавить фото</button>
+    <div class="thumbnails">
+    </div>
+</div>
+<div class="large-photo">
+    <img src="" id="large_photo" style="visibility: hidden" alt="">
+    <hr class="line">
+    <div id="image_meta" class="meta large-photo">
+
+    </div>
+</div>
+</body>
+</html>
