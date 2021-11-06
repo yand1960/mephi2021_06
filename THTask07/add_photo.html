@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Добавление нового фото</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="styles/add_photo.css" />
+    </head>
+    <body>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <div>
+    <form action="api/upload.php" method="post" enctype="multipart/form-data">
+        <h1>Добавьте фотографию</h1>
+        <div class="example-1">
+            <div class="form-group">
+              <label class="label">
+                <i class="material-icons">attach_file</i>
+                <input type="file" accept="image/*" name="uploadImg" id="uploadImg">
+              </label>
+            </div>
+          </div>
+            <textarea rows="5" cols="45" name="namePhoto" placeholder="Описание"></textarea> </br></br>
+            <input type="submit" value="Загрузить" name="submit">
+    </form>
+    <a href="index4.html">Вернуться на главную</a>
+    </div>
+
+
+    </body>
+</html>
+
