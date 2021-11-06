@@ -1,0 +1,75 @@
+h1 {
+    color: #000000;
+    background-color: #BBBBBB;
+    padding: 10px;
+    border: solid black thin;
+    border-radius: 10px;
+}
+form{
+    background-color: #BBBBBB;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* height: 100px; */
+    border:solid black thin;
+    border-radius: 10px;
+}
+input.load{
+    margin: 10px;
+    font-size: 18px;
+    width: 400px;
+}
+input.add-file{
+    margin: 10px;
+    font-size: 18px;
+    width: 400px;
+}
+
+input.comment{
+    margin: 10px;
+    font-size: 18px;
+    width: 400px;
+
+}
+
+input.createddate{
+    margin: 10px;
+    font-size: 18px;
+    width: 400px;
+
+}
+p.img_name{
+    margin: 10px;
+    font-size: 20px;
+    width: 400px;
+}
+
+div.result{
+    
+    border:solid rgb(0, 0, 0) thin;
+    background-color: #BBBBBB;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+div.addmore{
+    
+    margin-bottom: 20px;
+    text-align: center;
+
+}
+
+div.addmore input{
+    width: 300px;
+    font-size: 18px;
+    background-color: #BBBBBB;
+    border:solid black thin;
+    border-radius: 10px;
+}
+

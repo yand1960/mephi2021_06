@@ -1,0 +1,207 @@
+<html lang = "ru">
+    <head>
+        <title>Мой альбом</title>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="styles/main.css" />
+        <style>
+            div.rate {
+                border:solid rgb(0, 0, 0) thin;
+                background-color: #BBBBBB;
+                padding: 5px;
+                border-radius: 10px;
+                display: flex;
+                justify-content: space-around;
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            div.add-photo{
+                margin-bottom: 10px;
+            }
+            div.add-photo input{
+                width: 167px;
+                font-size: 18px;
+                background-color: #BBBBBB;
+                border:solid black thin;
+            }
+
+            div.thumbnails {
+                border:solid rgb(0, 0, 0) thin;
+                width: 165px;
+                float: left;
+                
+                overflow: auto;
+                height: 450px;
+            }
+            
+            div.thumbnails img{
+                margin: 5px;
+                border-radius: 50%;
+                display: block;
+                width: 130px;
+                border: solid white thick;
+                transition-property: transform;
+                transition-duration: 3s;
+            }
+            
+            div.large-photo{
+
+                float: left;
+                text-align: center;
+            }
+            
+            div.large-photo img{
+                margin-left: 40px;
+                height:400px;
+                border-radius: 10px;
+
+                animation-name: Appearance;
+                animation-duration: 3s;
+                animation-timing-function: cubic-bezier(.1,-.6,.2,0);
+
+                transition-property: transform;
+                transition-duration: 3s;
+
+                transition: opacity 1s ease-in-out;
+            }
+
+            div.large-photo img.src{
+            
+                animation-name: Appearance;
+                animation-duration: 3s;
+                animation-timing-function: cubic-bezier(.1,-.6,.2,0);
+
+                transition: opacity 1s ease-in-out;
+            }
+            
+            div.large-photo div.img_info{
+                animation-name: Appearance;
+                animation-duration: 3s;
+                animation-timing-function: cubic-bezier(.1,-.6,.2,0);
+
+                transition: opacity 1s ease-in-out;
+            }
+
+            @keyframes Appearance {
+                0% {opacity: 0;}
+                100% {opacity: 1;}
+            }
+
+            div.large-photo div.img_name_info{
+                font-size: 26px;
+                color:black;
+                text-align: center;
+                font-style: italic;
+                font-weight: bold;
+            }
+
+            div.large-photo div.img_date_info{
+                font-size: 18px;
+                color:black;
+                text-align: center;
+            }
+            
+            div.thumbnails img:hover{
+                border: solid red thick;
+                cursor: pointer;
+                transition-property: transform;
+                transition-duration: 3s;
+                transform: scale(110%);
+            }
+           
+            div.thumbnails img.selected{
+                border: solid blue thick;
+            }
+            
+        </style>
+        <script src="scripts\jquery-3.6.0.js"></script>
+        <script>
+            function showLarge(thumb)
+            {
+                $("#img_info").hide("slow");
+                $("#large_photo").hide("slow", function(){
+                    var id=thumb.id.replace("thmb","");
+                var url= "api/image_info_service.php?id="+id;
+                console.log(url);
+                $.getJSON(url, function(info){
+                    console.log(info);
+                    var large_name = "images/" + info.url;
+                    $("#large_photo").attr("src", large_name);
+                   
+                    $("div.thumbnails img").removeClass("selected");
+                    $(thumb).addClass("selected");
+                    $("#large_photo").show("slow");
+                    $("#img_name_info").text(info.name);
+                    $("#img_date_info").text("Дата съемки: "+info.created);
+                    $("#img_info").show("slow");
+
+                });
+                });
+            }
+
+            function getImages(){
+                var url="api/image_service_db.php";
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET",url);
+                xhr.onload = function (){
+                    let result = xhr.responseText;
+                    console.log(result);
+                    let images = JSON.parse(result);
+                    console.log(images);
+                    let out = "";
+                    for(pict of images)
+                    {
+                        console.log(pict[1]);
+                        out += `<img id="thmb${pict[0]}" src = "images/${pict[1]}" onclick="showLarge(this)" />`;
+                        
+                    }
+                    
+                    console.log(out);
+                    document.getElementById("thumbnails").innerHTML=out;
+                }
+                xhr.send();
+            }
+
+            function getRates(){
+                var url="https://www.cbr-xml-daily.ru/daily_json.js";
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET",url);
+                xhr.onload = function (){
+                    let result = xhr.responseText;
+                    let rates = JSON.parse(result);
+                    let ratesArr = [rates.Valute.USD, rates.Valute.EUR, rates.Valute.GBP];
+                    //let out = "<span> Курс валют: ";
+                    let out = "<div>Курс валют</div>";
+                    ratesArr.forEach(element=> out +=`<div>${element.Name} - ${element.Value}</div> `);
+                    //out +=`</span> `;
+                    document.getElementById("rate").innerHTML=out;
+                }
+                xhr.send();
+            }
+       
+        </script>
+    </head>
+    <body onload="getImages(); getRates();">
+        
+        <div class="rate" id="rate">
+            Идет загрузка курса валют....
+        </div>
+
+        <h1>Фотоальбом с добавлением картинок</h1>
+        <div class="add-photo">
+            <input type="button" onclick="window.location.href='add_photo.html'" value="Добавить фото"/>
+        </div>
+        <div class="thumbnails" id="thumbnails">
+            Идет загрузка....
+            
+        </div>
+
+        <div class="large-photo">
+            <img src="" id="large_photo" style="display: none;"/>
+            <div id="img_info" style="display: none;">
+                <div id="img_name_info" class ="img_name_info"></div>
+                <div id="img_date_info" class ="img_date_info"></div>
+            </div>
+        </div>
+        
+        </body>
+</html>

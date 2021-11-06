@@ -1,0 +1,25 @@
+<html lang = "ru">
+ <head>
+ <title>Загрузка фотографии</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ <link rel="stylesheet" href="styles/add_photo.css" />
+ </head>
+ <script>
+     function getDate(){
+        document.getElementById('createddate').valueAsDate  = new Date();
+     }
+ </script>
+ <body onload=getDate();>
+ <h1>Загрузка фотографии</h1>
+ <form class="form-inline" action = "add_photo_result.php" method="post" enctype="multipart/form-data" >
+    <input class="add-file" type="file" name="picture"/>
+
+    <input class="createddate" type="date" id="createddate" name="createddate" /> 
+    <p class="img_name">Введите название файла:</p>
+    <input class="comment" type="text" name="picturename" >
+    <input class="load" type="submit" value="Загрузить"/>
+    <input class="load" type="button" onclick="window.location.href='index4.html'" 
+            value="Просмотр альбома"/>
+ </form>
+ </body>
+</html>
