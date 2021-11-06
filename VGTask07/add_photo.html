@@ -1,0 +1,88 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" type="text/css" href="styles/main.css">
+        <script type="text/javascript" src="scripts/jquery-3.6.0.js"></script>
+    </head>
+    <style>
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #bbbbbb;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .topnav a {
+            float: left;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: #494949;
+            color: white;
+        }
+        .form {
+            margin-bottom: 10px;
+        }
+        .form label{
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+    <script>
+        function upload()
+        {
+            let file_data = $('#file').prop('files')[0];
+            let desc = $('#desc').prop('value');
+            console.log(file_data, desc)
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            form_data.append('description', desc);
+            $.ajax({
+                url: './api/upload.php',
+                dataType: 'html',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function(data){
+                    $('#result').html(data);
+                }
+     });
+        };
+    </script>
+    <body>
+        <div>
+            <h1 style="margin-bottom: 5px;">Загрузка фотографий</h1>
+        </div>
+        <div class="topnav">
+            <a href="index4.html">Фотоальбом</a>
+            <a class="active" href=".">Загрузка фотографий</a>
+        </div>
+        <div class="form">
+            <label>Выберите фотографию:</label>
+            <input type="file" name="image" id="file" required>
+        </div>
+        <div class="form">
+            <label>Добавьте описание фотографии:</label>
+            <textarea cols="40" rows="5" name="description" id="desc" required></textarea>
+        </div>
+        <input type="submit" value="Загрузить файл" onclick="upload();">
+		<div id="result"></div>
+    </body>
+</html>
