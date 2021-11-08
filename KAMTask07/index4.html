@@ -1,0 +1,256 @@
+<html>
+	<head>
+		<title>Мой альбом</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="./styles/main.css" />
+		<style>
+			
+			div.thumbnails-block {
+				display: inline-flex;
+				box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+				border-radius: 20px 20px 20px 20px;
+				float: left;
+				text-align: center;
+			}
+			
+			div.thumbnails {
+				max-width: 560px;
+				/* float: left; */
+				/* background-color: red; */
+				padding-top: 20px;
+				min-height: 300px;
+				/* max-height: 200px;	 */
+				text-align: left;	
+			}
+			
+			div.thumbnails img {
+				margin: 5px;
+				border-radius: 50%;
+				/* display: block; */
+				width: 126px;
+				height: 126px;
+				border: 2px solid white thick;
+				
+			}
+			
+			div.large-photo {
+				float: left;
+				/* position: relative; */
+			}
+			
+			div.large-photo img {
+				width: 398px;
+				margin-left: 30px;
+				display: block;
+				margin-bottom: 20px;
+			}
+
+			div.thumbnails img:hover {
+				border: 2px solid gray;
+				cursor: pointer;
+			}
+			
+			div.thumbnails img.selected {
+				border: 2px solid rgb(206, 58, 58);
+				cursor: pointer;
+			}
+
+			div.rate {
+				box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+				border-radius: 20px 20px 20px 20px;
+				padding: 10px;
+				margin-bottom: 10px;
+				width: 540px;
+			}
+
+			span.photoName{
+				font-size: 20px;
+			}
+
+			span.photoDate {
+				margin-left: 20px;
+				font-size: 15px;
+				float: right;
+			}
+
+			div.splitLine {
+				border-top: 2px solid black;
+				margin-left: 30px;
+				padding-top: 5px;
+			}
+
+			div.submit {
+				margin-left: 30px;
+				/* display: flex; */
+    			/* flex-direction: column; */
+				margin-bottom: 20px;
+
+				width: 350px;
+				/* height: 200px; */
+
+				box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+				padding-top: 10px;
+				padding-bottom: 20px;
+			}
+
+			div.submit input {
+				margin-top: 20px;
+				margin-left: 10px;
+				height: 30px;
+				width: 200px;
+			}
+
+			div.submit button {
+				height: 30px;
+				margin-left: 10px;
+			}
+
+			div.submit span {
+				margin-left: 10px;
+			}
+		
+			div.submit img {
+				margin-top: 30px;
+				width: 190px;
+			}
+		
+		</style>
+		<script src="scripts/jquery-3.6.0.js"></script>
+		<script>
+			let file;
+			function showLarge(thumb) {
+				// console.log(thumb);
+				var id = thumb.id.replace("thmb", "");
+				var url = "api/image_info_service.php?id= " + id;
+				console.log(url)
+
+				$.getJSON(url, function(info){
+					console.log(info);
+					$("#overlay").css("height", "380px");
+					var large_name = "images/" + info.url;
+					$("#large_photo").attr("src",large_name);
+					$("div.thumbnails img").removeClass("selected");
+					$(thumb).addClass("selected");
+					$("#large_photo").css("display", "");
+					$("#splitLine").css("display", "");
+					$("#photoName").text(info.name.toUpperCase());
+					$("#photoDate").text(info.created);
+					$("#submit").css("display", "none");
+				});	
+			}
+
+				function getImages() {
+					var url = "api/image_serviceDB.php";
+					var xhr = new XMLHttpRequest();
+					xhr.open("GET", url);
+					xhr.onload = function() {
+						let result = xhr.responseText;
+						// console.log(result);
+						let images = JSON.parse(result);
+						let out=`<img src="./icons/add-pic.png"onclick="prepare_pic();"/>`;
+						for(pic of images) {
+							// console.log(pic.url);
+							out += `<img id="thmb${pic[0]}" src="images/${pic[1]}"onclick="showLarge(this);"/>`;
+						}
+						
+						document.getElementById("thumbnails").innerHTML = out;
+						
+					};
+					xhr.send();
+				}
+
+				function getData() {
+					var url = "https://www.cbr-xml-daily.ru/daily_json.js";
+					var xhr = new XMLHttpRequest();
+					xhr.open("GET", url);
+					xhr.onload = function() {
+						let result = JSON.parse(xhr.responseText);
+						var rates = ["USD", "EUR", "GBP"];
+						let out="Данные по курсу: <br>";
+						for (i = 0; i < rates.length; i++) {
+							try {
+							out += `<span> ${result.Valute[rates[i]].Nominal} 
+											${result.Valute[rates[i]].Name} = 
+											${result.Valute[rates[i]].Value} руб.
+								<br></span>`;
+							}
+							catch {
+								out += `<span> ${rates[i]} - нет данных <br></span>`
+							}		
+						}	
+						document.getElementById("rate").innerHTML = out;	
+					};
+					xhr.send();
+				}
+
+				function prepare_pic() {
+					$('#upload_button').prop('disabled', false);
+					var input = document.createElement('input');
+					input.type = 'file';
+					input.name = "fileToUpload";
+					input.id = "fileToUpload";
+					input.click();
+
+					input.onchange = () => { 
+					var image = document.getElementById("img_prep");
+        			image.src = URL.createObjectURL(input.files[0]);
+					file = input.files[0];
+					}
+
+					$("#large_photo").css("display", "none");
+					$("#splitLine").css("display", "none");
+					$("#submit").css("display", "");
+	
+				}
+
+				function upload() {
+					const desc = document.getElementById("input").value;
+					var image = document.getElementById("img_prep");
+
+					const formData = new FormData();
+					formData.append('file', file);
+					formData.append('desc', desc);
+				
+					var xhr = new XMLHttpRequest();
+					xhr.open("POST", "utilities/add_photo.php");
+					
+					xhr.onload = function () {
+						console.log(xhr.responseText);
+					};
+					xhr.send(formData);	
+					// alert("123");
+					getImages();
+					window.location.reload();	
+				}
+
+		
+		</script>
+	</head>
+	<body onload="getImages(); getData();">
+		<div class="top"><h1>Фотоальбом Web API</h1></div>
+		<div class="rate" id="rate">Загрузка данных по курсу</div>
+		<div class='thumbnails-block'>
+			<div class="thumbnails" id="thumbnails">Идет загрузка...</div>	
+		</div>
+
+		<div class="large-photo" >
+			<img src="images/april-meyer.jpg" id="large_photo" style="display: none;"/>
+			<!-- <div class="overlay" id="overlay"></div> -->
+			<div class="splitLine" id = "splitLine" style="display: none;">
+			<span class="photoName" id = "photoName">Имя</span>
+			<span class="photoDate" id = "photoDate">Дата создания</span>
+			</div>
+		<div>
+
+		<div class="submit" id="submit" style="display: none;">
+				<span>Загрузка нового фото:</span>
+				<input type="file" name="fileToUpload" id="fileToUpload" style="display: none;">
+				<img id="img_prep"></img>
+				<input className='input' id="input" placeholder='Описание'></input>
+				<button type='button' id='upload_button' disabled onclick="upload();">Загрузить</button>
+		</div>
+		
+		<div class='upload'>
+		</div>	
+	</body>
+</html>
