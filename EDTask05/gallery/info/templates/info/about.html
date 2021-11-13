@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <div class="block_about">
+            <h1> Данный блок посвящён: </h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, aliquid
+                aperiam, cumque eius nihil non omnis perspiciatis placeat quasi sapiente temporibu
+                s voluptates. Aspernatur deleniti doloribus eos ex, minima odit rerum.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur consequatur dolore
+                doloremque eos inventore placeat quis repellat, repudiandae sed? Aut dolores ipsa ipsam nobis praesentium quia
+                enetur, ut veniam vitae!</p>
+        </div>
+
+        {% if data.id == 1 %}
+        <img src="{% static 'info/img/april-meyer-large.jpg' %}" alt="">
+        {% elif  data.id == 2 %}
+        <img src="{% static 'info/img/david-alexander-large.jpg' %}" alt="">
+        {% elif  data.id == 3 %}
+        <img src="{% static 'info/img/mark-hanson-large.jpg' %}" alt="">
+        {% elif  data.id == 4 %}
+        <img src="{% static 'info/img/melissa-kerr-large.jpg' %}" alt="">
+        {% endif %}
+
+        <div class="main_about">
+
+            <ul>
+                <li>{{data.title}}</li>
+                <li>{{data.info}}</li>
+                <li>{{data.date}}</li>
+
+            </ul>
+        </div>
+
+        <a href="{% url 'home' %}">
+            <button>
+                Вернуться
+            </button>
+        </a>
+
+</body>
+</html>
