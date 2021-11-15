@@ -10,9 +10,9 @@
         echo($file);
         if ($file != "processed" and strlen($file) > 4){
              $sql = file_get_contents(__DIR__."/../migrations/".$file);
-            var_dump($sql);
+            // var_dump($sql);
             mysqli_multi_query($conn, $sql);
-            rename(__DIR__."/../migrations/".$file, __DIR__."/../migrations/processed/".$file);
+            //rename(__DIR__."/../migrations/".$file, __DIR__."/../migrations/processed/".$file);
         }
            
     }

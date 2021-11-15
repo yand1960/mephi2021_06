@@ -40,7 +40,10 @@
             transform:translate(20px);
             transition-property: transform;
             transition-duration: 0.5s;
-        }        
+        }     
+        div#photo_info {
+            border: red;
+        }   
     </style>
     <script src="scripts/jquery-3.6.0.js"></script>
     <script>
@@ -86,10 +89,10 @@
         <a href="./api/add_photo.php" class="btn btn-outline-secondary">Добавить фото</a>
     </div>
     <div class="thumbnails" id="thumbnails"></div>
-    <div class="large-photo" style="position: sticky; top: 0;">
+    <div class="large-photo" style="position: sticky; top: 0; display: flex;">
         <img id="large_photo"/>
         <div id="photo_info"
-            style="margin-left: 600px; padding-top: 150px; display: none;"></div>
+            style="margin-left: 100px; padding-top: 150px; display: none;"></div>
     </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

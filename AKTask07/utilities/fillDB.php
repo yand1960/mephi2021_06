@@ -3,7 +3,7 @@
 $files = scandir(__DIR__."/../images");
 
 // с точки зрения безопасности так нельзя
-$conn = mysqli_connect("localhost:3306", "root", "", "album");
+$conn = mysqli_connect("localhost:3306", "root", "", "albumAK");
 
 foreach ($files as $file) {
     if (strpos($file,"large") === FALSE and strlen($file) > 3) {
