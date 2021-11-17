@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Local StorageI</title>
+        <meta charset="utf-8" />
+    </head>
+    <script>
+        i = 0;
+        function count(){
+            if(localStorage["clicks"] != null){
+                i = parseInt(localStorage["clicks"]);
+            }
+            i += 1;
+            document.getElementById("display").innerText = i;
+            localStorage["clicks"] = i;
+        }
+    </script>
+    <body>
+        <h1>Считаем щелчки</h1>
+        <button onclick="count();">Click me</button>
+        <p id="display"></p>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>File API</title>
+        <meta charset="utf-8" />
+    </head>
+    <script src="scripts/jquery-3.6.0.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#btn1").click(function(){
+                let reader = new FileReader();
+                let file = $("#filePicker").get(0).files[0];
+                reader.onload = function(result){
+                    console.log(result);
+                    $("#display").text(result.target.result);
+                };
+                reader.readAsText(file);
+                console.log(file);
+            });
+
+            $("#btn2").click(function(){
+                let reader = new FileReader();
+                let file = $("#filePicker").get(0).files[0];
+                reader.onload = function(result){
+                    console.log(result);
+                    $("#img1").attr("src", result.target.result);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
+    <body>
+        <h1>File API</h1>
+        <input type="file" id="filePicker" value="Выберите файл"/> <br />
+        <button id="btn1">Загрузить текст из файла</button>
+        <button id="btn2">Загрузить картинку</button>
+        <div id="display"></div>
+        <img id="img1"/>
+    </body>
+</html>
