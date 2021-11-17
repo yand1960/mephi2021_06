@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <title>AKTask08</title>
+        <meta charset="utf-8"/>
+        <meta charset="utf-8"/>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            img {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            max-height: 500px;
+            max-width: 500px;
+            }
+
+            circle {
+            fill: #c00;
+            stroke: none;
+            position: fixed;
+            z-index: 15;
+            }
+            div.cont {
+            position:relative;
+            background-color: aqua;
+            display: block;
+            margin-left: 50px;
+            height: max-content;
+            width: max-content;
+            }
+
+            #div {
+                z-index: 1;
+            }
+
+            svg.svg {
+            position: absolute;
+            z-index: 10;
+            height: 100%;
+            display: none;
+            width: 100%;
+            }
+        </style>
+    </head>
+    <script src="scripts/jquery-3.6.0.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#btn").click(function(){
+                let reader = new FileReader();
+                let file = $("#filePicker").get(0).files[0];
+                reader.onload = function(result){
+                    console.log(result);
+                    $("#img").attr("src", result.target.result);
+                    $("#svg").css("display", "block");
+                };
+                reader.readAsDataURL(file);
+            }); 
+        }); 
+        
+    </script>
+    <body style="font-family: 'Montserrat';">
+        <div class="jumbotron">
+            <h1>Измерение расстояния между двумя точками на картинке</h1>
+        </div>
+        <div style="margin-left: 39px; margin-bottom: 10px;">
+            <input type="file" id="filePicker" value="Выберите файл" class="btn"/>
+        </div>
+        <div style="margin-left: 50px;">
+            <button id="btn" class="btn btn-outline-secondary" style="margin-bottom: 20px;">Загрузить картинку</button>
+        </div>
+        <div class="cont">
+            <svg id="svg" class="svg"></svg>
+            <img id="img"/>
+            
+        </div>
+        <table class="table" style="width: 400px; margin-left: 50px; margin-top: 10px;">
+            <thead>
+                <tr>
+                <th scope="col" style="width: 25%;">X</th>
+                <th scope="col" style="width: 25%;">Y</th>
+                <th scope="col" style="width: 50%;">distance</th>
+                </tr>
+            </thead>
+            <tbody id="out"></tbody>
+        </table>
+    </body>
+    <script>
+        let prevX = null, prevY = null;
+
+        svg.addEventListener('click', function (e) {
+        const x = e.offsetX;
+        const y = e.offsetY;
+
+        let dist;
+        if (prevX === null) {
+            dist = '';
+        } else {
+            const dX = prevX - x;
+            const dY = prevY - y;
+            dist = Math.sqrt(
+            Math.pow(dX, 2) +
+            Math.pow(dY, 2)).toFixed(2);
+        }
+        prevX = x;
+        prevY = y;
+
+        addDot(x, y);
+        addTableRow(x, y, dist);
+        });
+
+        function addTableRow(x, y, dist) {
+        const row = `
+        <tr>
+        <td>${x}</td>
+        <td>${y}</td>
+        <td>${dist}</td>
+        </tr>`;
+        out.insertAdjacentHTML('beforeend', row);
+        }
+
+        function addDot(x, y) {
+        
+        const svgns = 'http://www.w3.org/2000/svg';
+        const dot = document.createElementNS(svgns, 'circle');
+
+        dot.setAttributeNS(null, 'cx', x);
+        dot.setAttributeNS(null, 'cy', y);
+        dot.setAttributeNS(null, 'r', 3);
+        svg.appendChild(dot);
+        console.log(svg);
+        }  
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+</html>
