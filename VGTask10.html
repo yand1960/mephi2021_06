@@ -1,0 +1,14 @@
+<script>
+    'use strict'
+
+    var my$ = function (x) {
+        return 2 * x
+    }
+    my$.hello = () => { console.log('Hello!') }
+
+
+    console.log(my$(1)); // Должен вернуть удвоенный аргумент
+
+    my$.hello(); // Написать в консоль Hello
+
+</script>
