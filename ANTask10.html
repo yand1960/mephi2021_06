@@ -1,0 +1,18 @@
+<script>
+    "use strict"
+    // my$(1) - должен вернуть удвоенный аргумент
+    // my$.hello() - написать слово hello
+
+    var my$ = function(x) {
+        return 2*x;
+    }
+    
+    my$.hello = function(){
+        console.log("Hello");
+    }
+
+    var r = my$(1);
+    console.log(r);
+    my$.hello();
+    
+</script>
