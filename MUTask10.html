@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>File API</title>
+<meta charset="utf-8"/>
+
+</head>
+<script src="scripts/jquery-3.6.0.js"></script>
+<script>
+
+(function() { 
+    function my$(a) {
+        return a*2; 
+    } 
+    
+    my$.hello = function(a) {
+        console.log("hello");             
+    };
+    window.my$ = my$; 
+})();
+
+my$.hello();                   
+console.log(my$(1));
+</script>
+<body>
+<h1>File API</h1>
+</body>
+</html>
